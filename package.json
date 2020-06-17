@@ -4,6 +4,6 @@
   "workspaces": ["packages/*"],
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Juan Carlos Parra <juancarlos.parra@globant.com>",
+  "author": "Juan Carlos Parra <juandkpa@gmail.com>",
   "license": "MIT"
 }
