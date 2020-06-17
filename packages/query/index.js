@@ -17,16 +17,24 @@ app.post('/events', (req, res) => {
     const { type, data} = req.body;
 
     switch(type) {
-        case 'PostCreated':
-            {
+        case 'PostCreated': {
                 const { id, title } = data;
                 posts[id] = { id, title, comments: [] };
                 break;
-            }
-        case 'CommentCreated':
-            const { id, content, postId } = data;
+        }
+        case 'CommentCreated': {
+            const { id, content, postId, status } = data;
             const post = posts[postId];
-            post.comments.push({ id, content });
+            post.comments.push({ id, content, status });
+        }
+        case 'CommentUpdated': {
+            const { id, content, postId, status } = data;
+            const post = posts[postId];
+            const comment = post.comments.find(comment => comment.id === id);
+
+            comment.status = status;
+            comment.content = content;
+        }
     }
     res.send({});
 });
