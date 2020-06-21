@@ -13,22 +13,27 @@ const posts = {};
 const handleEvent = (type, data) => {
     switch(type) {
         case 'PostCreated': {
+            console.log("event received ::: ", type);
                 const { id, title } = data;
                 posts[id] = { id, title, comments: [] };
                 break;
         }
         case 'CommentCreated': {
+            console.log("event received ::: ", type);
             const { id, content, postId, status } = data;
             const post = posts[postId];
             post.comments.push({ id, content, status });
+            break;
         }
         case 'CommentUpdated': {
+            console.log("event received ::: ", type);
             const { id, content, postId, status } = data;
             const post = posts[postId];
             const comment = post.comments.find(comment => comment.id === id);
 
             comment.status = status;
             comment.content = content;
+            break;
         }
     }
 }
@@ -48,7 +53,7 @@ app.post('/events', (req, res) => {
 app.listen(4002, async () => {
     console.log('Listening on 4002');
 
-    const res = await axios.get('http://localhost:4005/events');
+    const res = await axios.get('http://event-bus-srv:4005/events');
 
     for (let event of res.data) {
         console.log('Processing event:', event.type);
